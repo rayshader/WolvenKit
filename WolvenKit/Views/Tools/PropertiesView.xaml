@@ -5,33 +5,29 @@
     xmlns:conv="clr-namespace:WolvenKit.App.Converters;assembly=WolvenKit.App"
     xmlns:converters2="clr-namespace:WolvenKit.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ei="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:others="clr-namespace:WolvenKit.Views.Others"
     xmlns:reactiveUi="http://reactiveui.net"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:tools="clr-namespace:WolvenKit.App.ViewModels.Tools;assembly=WolvenKit.App"
     xmlns:tools1="clr-namespace:WolvenKit.Views.Tools"
-    d:DataContext="{d:DesignInstance Type=tools:PropertiesViewModel}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:templates="clr-namespace:WolvenKit.Views.Templates"
+    mc:Ignorable="d"
     x:TypeArguments="tools:PropertiesViewModel"
-    FontSize="10"
-    mc:Ignorable="d">
-
-
-
+    d:DataContext="{d:DesignInstance Type=tools:PropertiesViewModel}"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    FontSize="10">
     <Grid>
-
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
                     <hc:ThemeResources RequestedTheme="Dark" />
                     <hc:Theme />
                 </ResourceDictionary.MergedDictionaries>
+                
                 <converters2:ValueConverterGroup x:Key="DateTimeVisi">
                     <hc:Object2StringConverter />
                     <hc:String2VisibilityConverter />
@@ -39,7 +35,11 @@
 
                 <conv:StringPathToItemStringConverter x:Key="PathConverter" />
 
-
+                <Style x:Key="WolvenKitTabItemStyle"
+                       BasedOn="{StaticResource SyncfusionTabItemExtStyle}"
+                       TargetType="{x:Type syncfusion:TabItemExt}">
+                    <Setter Property="Height" Value="{DynamicResource WolvenKitTabHeight}" />
+                </Style>
 
                 <!--  region PreviewSlider  -->
 
@@ -209,11 +209,11 @@
                 <!--  endregion  -->
             </ResourceDictionary>
         </Grid.Resources>
+
         <syncfusion:TabControlExt
             Margin="0"
             Padding="0"
             AllowDragDrop="False"
-            BorderThickness="0"
             CloseButtonType="Hide"
             CloseTabOnMiddleClick="False"
             EnableLabelEdit="False"
@@ -221,17 +221,17 @@
             ShowTabItemContextMenu="False"
             ShowTabListContextMenu="False"
             Style="{StaticResource WolvenKitTabControl}">
-
-            <syncfusion:TabItemExt Header="Properties">
-
-                <Grid>
+            <syncfusion:TabItemExt
+                Header="Properties"
+                Style="{StaticResource WolvenKitTabItemStyle}">
+                <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto">
                     <Grid.Resources>
                         <Style BasedOn="{StaticResource MahApps.Styles.CheckBox.DataGrid.Win10}" TargetType="CheckBox">
                             <Setter Property="HorizontalAlignment" Value="Left" />
                         </Style>
 
                         <Style TargetType="TextBox">
-                            <Setter Property="Margin" Value="5,0,0,0" />
+                            <Setter Property="Margin" Value="{DynamicResource WolvenKitMarginTinyLeft}" />
                         </Style>
                     </Grid.Resources>
 
@@ -239,8 +239,8 @@
                         x:Name="PEPropGrid"
                         AutoGeneratingPropertyGridItem="PropertyGrid_OnAutoGeneratingPropertyGridItem"
                         BorderThickness="0"
+                        PropertyNameColumnDefinition="{DynamicResource WolvenKitPropertyColumnWidth}"
                         ButtonPanelVisibility="Collapsed"
-                        PropertyNameColumnDefinition="150"
                         SearchBoxVisibility="Collapsed"
                         SelectedObject="{Binding PE_SelectedItem, Mode=OneWay}"
                         Visibility="{Binding PE_FileInfoVisible, Converter={StaticResource ToggleVisibilityConverter}}" />
@@ -318,15 +318,19 @@
                         Margin="0"
                         AutoGeneratingPropertyGridItem="PropertyGrid_OnAutoGeneratingPropertyGridItem"
                         BorderThickness="0"
+                        PropertyNameColumnDefinition="{DynamicResource WolvenKitPropertyColumnWidth}"
                         ButtonPanelVisibility="Collapsed"
-                        PropertyNameColumnDefinition="150"
                         SearchBoxVisibility="Collapsed"
                         SelectedObject="{Binding AB_SelectedItem, Mode=OneWay}"
                         Visibility="{Binding AB_FileInfoVisible, Converter={StaticResource ToggleVisibilityConverter}}" />
                 </Grid>
             </syncfusion:TabItemExt>
-            <syncfusion:TabItemExt Header="Mesh" IsEnabled="{Binding IsMeshPreviewVisible}">
-                <Grid Name="RootGrid" Height="auto">
+
+            <syncfusion:TabItemExt
+                Header="Mesh"
+                Style="{StaticResource WolvenKitTabItemStyle}"
+                IsEnabled="{Binding IsMeshPreviewVisible}">
+                <Grid Name="RootGrid" Height="Auto">
                     <Border Name="ViewportBorder" Background="{StaticResource ContentBackground}">
                         <hx:Viewport3DX
                             Name="hxViewport"
@@ -345,19 +349,26 @@
                                 <MouseBinding Command="hx:ViewportCommands.Pan" Gesture="MiddleClick" />
                                 <MouseBinding Command="hx:ViewportCommands.Rotate" Gesture="Shift+MiddleClick" />
                             </hx:Viewport3DX.InputBindings>
+                            
                             <hx:DirectionalLight3D Direction="0, -1, 0" Color="White" />
                             <hx:DirectionalLight3D Direction="0, 0, 1" Color="White" />
                             <hx:DirectionalLight3D Direction="0, 0, -1" Color="White" />
                             <hx:DirectionalLight3D Direction="1, 0, 0" Color="White" />
                             <hx:DirectionalLight3D Direction="-1, 0, 0" Color="White" />
+                            
                             <hx:DynamicReflectionMap3D>
                                 <hx:ItemsModel3D x:Name="hxContentVisual" ItemsSource="{Binding ModelGroup}" />
                             </hx:DynamicReflectionMap3D>
+                            
                             <hx:Viewport3DX.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Click="ReloadModels" Header="Zoom to extents">
                                         <MenuItem.Icon>
-                                            <iconPacks:PackIconCodicons Margin="5,0,0,0" Kind="ZoomOut" />
+                                            <templates:IconTemplateView
+                                                IconPack="Codicons"
+                                                Kind="ZoomOut"
+                                                Margin="0"
+                                                Size="{DynamicResource WolvenKitNanoIconSize}" />
                                         </MenuItem.Icon>
                                     </MenuItem>
                                 </ContextMenu>
@@ -369,7 +380,6 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Top"
                         Orientation="Vertical">
-
                         <Expander
                             Header="Assimp info"
                             IsExpanded="False"
@@ -383,33 +393,42 @@
                         </Expander>
                     </StackPanel>
 
-                    <syncfusion:DropDownButton
+                    <syncfusion:DropDownButtonAdv
+                        Height="{DynamicResource WolvenKitPropertiesButtonHeight}"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        IconWidth="{DynamicResource WolvenKitIconSize}"
+                        IconHeight="{DynamicResource WolvenKitIconSize}"
+                        FontSize="{DynamicResource WolvenKitSubTitleFontSize}"
                         Label="Options">
-                        <syncfusion:DropDownButton.IconTemplate>
+                        <syncfusion:DropDownButtonAdv.Style>
+                            <Style BasedOn="{StaticResource SyncfusionDropDownButtonAdvStyle}" TargetType="{x:Type syncfusion:DropDownButtonAdv}">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+                        </syncfusion:DropDownButtonAdv.Style>
+                        
+                        <syncfusion:DropDownButtonAdv.IconTemplate>
                             <DataTemplate>
-                                <iconPacks:PackIconRemixIcon
-                                    Width="12"
-                                    HorizontalAlignment="Center"
+                                <templates:IconTemplateView
+                                    IconPack="Material"
+                                    Kind="Cog"
+                                    Margin="0"
                                     VerticalAlignment="Center"
-                                    Kind="Settings2Fill" />
+                                    Size="{DynamicResource WolvenKitMicroIconSize}" />
                             </DataTemplate>
-                        </syncfusion:DropDownButton.IconTemplate>
+                        </syncfusion:DropDownButtonAdv.IconTemplate>
+                        
                         <Border
-                            Margin="5"
+                            Margin="{DynamicResource WolvenKitMarginTiny}"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Background="Black"
-                            BorderBrush="Black"
-                            BorderThickness="2"
+                            VerticalAlignment="Center"
                             Visibility="Visible">
-                            <StackPanel Margin="10,5" Orientation="Vertical">
+                            <StackPanel Margin="{DynamicResource WolvenKitMarginTiny}" Orientation="Vertical">
                                 <CheckBox
                                     Name="ShowWireframeCheckBox"
-                                    Margin="0,0,0,0"
                                     HorizontalAlignment="Left"
-                                    Content=" Show wireframe"
+                                    Content="Show wireframe"
                                     IsChecked="{Binding ShowWireFrame}" />
                                 <!--
                                     CheckBox
@@ -434,21 +453,28 @@
                                 -->
                             </StackPanel>
                         </Border>
-                    </syncfusion:DropDownButton>
+                    </syncfusion:DropDownButtonAdv>
                 </Grid>
             </syncfusion:TabItemExt>
 
-            <syncfusion:TabItemExt Header="Audio" IsEnabled="{Binding IsAudioPreviewVisible}">
+            <syncfusion:TabItemExt
+                Header="Audio"
+                Style="{StaticResource WolvenKitTabItemStyle}"
+                IsEnabled="{Binding IsAudioPreviewVisible}">
                 <tools1:AudioPlayerView x:Name="AudioPlayer" />
             </syncfusion:TabItemExt>
 
-            <syncfusion:TabItemExt Header="Image" IsEnabled="{Binding IsImagePreviewVisible}">
+            <syncfusion:TabItemExt
+                Header="Image"
+                Style="{StaticResource WolvenKitTabItemStyle}"
+                IsEnabled="{Binding IsImagePreviewVisible}">
                 <others:ImageCanvas x:Name="ImageCanvasItem" Source="{Binding LoadedBitmapFrame}" />
             </syncfusion:TabItemExt>
 
             <syncfusion:TabItemExt
                 x:Name="testme"
                 Header="Video Preview"
+                Style="{StaticResource WolvenKitTabItemStyle}"
                 Visibility="{Binding IsVideoPreviewVisible, Converter={StaticResource ToggleVisibilityConverter}}" />
         </syncfusion:TabControlExt>
     </Grid>

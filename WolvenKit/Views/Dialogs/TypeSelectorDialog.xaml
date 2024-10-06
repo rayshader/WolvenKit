@@ -5,38 +5,43 @@
     xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:WolvenKit.App.ViewModels.Dialogs;assembly=WolvenKit.App"
-    xmlns:local="clr-namespace:WolvenKit.Views.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:reactiveUi="http://reactiveui.net"
-    Width="600"
-    Height="350"
-    d:DesignHeight="350"
-    d:DesignWidth="600"
+    mc:Ignorable="d"
     x:TypeArguments="dialogs:TypeSelectorDialogViewModel"
-    Background="{StaticResource ContentBackground}"
-    mc:Ignorable="d">
-    <Grid>
+    d:DesignWidth="600"
+    d:DesignHeight="350"
+    Width="{DynamicResource WolvenKitDialogWidth}"
+    Height="{DynamicResource WolvenKitDialogHeight}"
+    Background="{StaticResource ContentBackgroundAlt3}">
+    <Grid Margin="{DynamicResource WolvenKitMarginSmall}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TabControl x:Name="TabControl" Grid.Row="0">
-            <TabItem>
+        <TabControl
+            x:Name="TabControl"
+            Grid.Row="0"
+            Margin="{DynamicResource WolvenKitMarginSmallBottom}">
+            <TabItem
+                Height="{DynamicResource WolvenKitTabHeight}">
                 <TabItem.Header>
                     <TextBlock
-                        Margin="3"
-                        FontSize="14"
+                        Padding="{DynamicResource WolvenKitMarginSmallHorizontal}"
+                        FontSize="{DynamicResource WolvenKitBodyFontSize}"
+                        VerticalAlignment="Center"
                         Text="Select Existing Type" />
                 </TabItem.Header>
+                
                 <Syncfusion:SfDataGrid
                     x:Name="TypeDataGrid"
-                    Grid.Row="2"
-                    Margin="5"
+                    Margin="{DynamicResource WolvenKitMarginSmallTop}"
                     AllowEditing="False"
                     AllowFiltering="True"
                     AutoGenerateColumns="False"
                     ColumnSizer="Star"
+                    RowHeight="{DynamicResource WolvenKitScriptManagerRowHeight}"
                     FilterRowPosition="FixedTop"
                     GridLinesVisibility="None"
                     IsReadOnly="True"
@@ -57,18 +62,21 @@
                                 <DataTemplate>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="5" />
-                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="{DynamicResource WolvenKitColumnTiny}" />
+                                            <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
                                             Grid.Column="0"
-                                            Margin="5,0"
+                                            Margin="{DynamicResource WolvenKitMarginTinyHorizontal}"
+                                            VerticalAlignment="Center"
                                             Text="{Binding Name}" />
+                                        
                                         <TextBlock
                                             Grid.Column="2"
                                             Foreground="{StaticResource BorderAlt2}"
+                                            VerticalAlignment="Center"
                                             Text="{Binding Description}" />
                                     </Grid>
                                 </DataTemplate>
@@ -77,50 +85,57 @@
                     </Syncfusion:SfDataGrid.Columns>
                 </Syncfusion:SfDataGrid>
             </TabItem>
-            <TabItem Visibility="{Binding AllowCreating, Converter={StaticResource BooleanToVisibilityConverter}}">
+            
+            <TabItem
+                Height="{DynamicResource WolvenKitTabHeight}"
+                Visibility="{Binding AllowCreating, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <TabItem.Header>
                     <TextBlock
-                        Margin="3"
-                        FontSize="14"
+                        Padding="{DynamicResource WolvenKitMarginSmallHorizontal}"
+                        FontSize="{DynamicResource WolvenKitBodyFontSize}"
+                        VerticalAlignment="Center"
                         Text="Create Custom Type" />
                 </TabItem.Header>
+                
                 <Grid
-                    Grid.Row="1"
-                    Height="30"
-                    Margin="10"
+                    Margin="{DynamicResource WolvenKitMarginSmallTop}"
                     VerticalAlignment="Top">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    
                     <TextBlock
                         Grid.Row="0"
-                        FontSize="12"
+                        FontSize="{DynamicResource WolvenKitSubTitleFontSize}"
+                        VerticalAlignment="Center"
                         Text="Class Name:" />
+                    
                     <TextBox
                         x:Name="CustomNameTextBox"
                         Grid.Column="1"
-                        VerticalAlignment="Top"
-                        FontSize="12" />
+                        Margin="{DynamicResource WolvenKitMarginSmallLeft}"
+                        FontSize="{DynamicResource WolvenKitSubTitleFontSize}"
+                        VerticalAlignment="Center" />
                 </Grid>
             </TabItem>
         </TabControl>
 
         <StackPanel
-            Grid.Row="2"
-            Margin="0,0,5,5"
+            Grid.Row="1"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
                 x:Name="OkButton"
-                Margin="5"
-                Padding="12,0"
+                Margin="{DynamicResource WolvenKitMarginSmallLeft}"
+                Padding="{DynamicResource WolvenKitMarginSmall}"
                 Background="{StaticResource WolvenKitRed}"
-                Content="OK" />
+                Content="Create" />
+            
             <Button
                 x:Name="CancelButton"
-                Margin="5"
-                Padding="12,0"
+                Margin="{DynamicResource WolvenKitMarginSmallLeft}"
+                Padding="{DynamicResource WolvenKitMarginSmall}"
                 Content="Cancel" />
         </StackPanel>
     </Grid>

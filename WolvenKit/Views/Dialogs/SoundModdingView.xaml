@@ -6,21 +6,19 @@
     xmlns:dialogs="clr-namespace:WolvenKit.App.ViewModels.Dialogs;assembly=WolvenKit.App"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:local="clr-namespace:WolvenKit.Views.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:reactiveUi="http://reactiveui.net"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-    Width="800"
-    Height="600"
+    xmlns:templates="clr-namespace:WolvenKit.Views.Templates"
+    mc:Ignorable="d"
+    x:TypeArguments="dialogs:SoundModdingViewModel"
     d:DataContext="{d:DesignInstance Type=dialogs:SoundModdingViewModel}"
     d:DesignHeight="600"
     d:DesignWidth="800"
-    x:TypeArguments="dialogs:SoundModdingViewModel"
-    Background="{StaticResource ContentBackgroundAlt3}"
-    mc:Ignorable="d">
-
-    <Grid Margin="20">
-
+    Width="{DynamicResource WolvenKitDialogWidthMedium}"
+    Height="{DynamicResource WolvenKitDialogHeightMedium}"
+    Background="{StaticResource ContentBackgroundAlt3}">
+    <Grid Margin="{DynamicResource WolvenKitMarginSmall}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -31,17 +29,19 @@
         <!--  Header  -->
         <TextBlock
             Grid.Row="0"
-            FontSize="24"
+            FontSize="{DynamicResource WolvenKitHugeFontSize}"
             Text="Sound Modding Tool" />
 
         <!--  Separator  -->
-        <Separator Grid.Row="1" />
+        <Separator
+            Grid.Row="1"
+            Margin="{DynamicResource WolvenKitMarginSmallVertical}" />
 
         <!--  Main grid  -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="{DynamicResource WolvenKitMarginSmallBottom}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="{DynamicResource WolvenKitColumnTiny}" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
@@ -54,13 +54,14 @@
                 </Grid.RowDefinitions>
 
                 <!--  Filters  -->
-                <Grid>
+                <Grid Margin="{DynamicResource WolvenKitMarginSmallBottom}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Label VerticalAlignment="Center" Content="Filter events by tag: " />
+                    
                     <syncfusion:ComboBoxAdv
                         x:Name="ComboBoxTags"
                         Grid.Column="1"
@@ -75,13 +76,13 @@
                 <syncfusion:SfDataGrid
                     x:Name="DataGridEvents"
                     Grid.Row="1"
-                    Margin="5"
+                    Margin="{DynamicResource WolvenKitMarginSmallBottom}"
                     AllowFiltering="True"
                     AllowResizingColumns="True"
                     AutoGenerateColumns="False"
                     ColumnSizer="Star"
+                    RowHeight="{DynamicResource WolvenKitScriptManagerRowHeight}"
                     SelectionMode="Extended">
-
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTemplateColumn MappingName="Name">
                             <syncfusion:GridTemplateColumn.CellTemplate>
@@ -93,20 +94,21 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            Margin="2,0,0,0"
+                                            Margin="{DynamicResource WolvenKitMarginTinyLeft}"
                                             VerticalAlignment="Center"
                                             Text="{Binding Name}" />
+
                                         <Button
                                             Grid.Column="1"
+                                            Margin="{DynamicResource WolvenKitMarginTinyRight}"
+                                            Padding="{DynamicResource WolvenKitMarginTiny}"
                                             syncfusion:FocusManagerHelper.FocusedElement="True"
                                             Background="Transparent"
                                             BorderBrush="Transparent"
                                             Click="ButtonAdd_Click">
                                             <iconPacks:PackIconMaterial
-                                                Width="17"
-                                                Height="13"
-                                                Padding="1"
-                                                Foreground="Green"
+                                                Width="{DynamicResource WolvenKitMicroIconSize}"
+                                                Foreground="{StaticResource WolvenKitGreen}"
                                                 Kind="Plus" />
                                         </Button>
                                     </Grid>
@@ -120,43 +122,45 @@
                 <!--  Footer  -->
                 <StackPanel Grid.Row="2">
                     <Button
-                        Height="25"
-                        Margin="5,0,5,0"
-                        Click="ButtonAddAll_Click"
-                        Content="Add selected events"
-                        Foreground="Green" />
+                        Padding="{DynamicResource WolvenKitMarginSmallVertical}"
+                        Click="ButtonAddAll_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <templates:IconTemplateView
+                                IconPack="Material"
+                                Kind="Plus"
+                                Margin="{DynamicResource WolvenKitMarginTinyHorizontal}"
+                                Size="{DynamicResource WolvenKitMicroIconSize}"
+                                Foreground="{StaticResource WolvenKitGreen}" />
+                            
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Add selected events" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Grid>
 
-            <!--  Separator  -->
-            <syncfusion:SfGridSplitter
-                Grid.Column="1"
-                Width="auto"
-                HorizontalAlignment="Stretch"
-                ResizeBehavior="PreviousAndNext" />
-
             <!--  Modded grid  -->
             <Grid Grid.Column="2">
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="5" />
-                    <RowDefinition Height="165" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <!--  Custom Events  -->
                 <syncfusion:SfDataGrid
                     x:Name="PluginList"
                     Grid.Row="0"
-                    Margin="5"
+                    Margin="{DynamicResource WolvenKitMarginSmallBottom}"
                     AllowFiltering="True"
                     AllowResizingColumns="True"
                     AutoGenerateColumns="False"
                     ColumnSizer="Star"
+                    RowHeight="{DynamicResource WolvenKitScriptManagerRowHeight}"
                     ItemsSource="{Binding CustomEvents}"
                     SelectedItem="{Binding SelectedObject}"
                     SelectionMode="Extended">
-
                     <syncfusion:SfDataGrid.Columns>
                         <syncfusion:GridTemplateColumn MappingName="Name">
                             <syncfusion:GridTemplateColumn.CellTemplate>
@@ -168,18 +172,21 @@
                                         </Grid.ColumnDefinitions>
 
                                         <TextBlock
-                                            Margin="2,0,0,0"
+                                            Margin="{DynamicResource WolvenKitMarginTinyLeft}"
                                             VerticalAlignment="Center"
                                             Text="{Binding Name}" />
+                                        
                                         <Button
                                             Grid.Column="1"
+                                            Margin="{DynamicResource WolvenKitMarginTinyRight}"
+                                            Padding="{DynamicResource WolvenKitMarginTiny}"
                                             syncfusion:FocusManagerHelper.FocusedElement="True"
                                             Background="Transparent"
                                             BorderBrush="Transparent"
                                             Click="ButtonDel_Click">
                                             <iconPacks:PackIconMaterial
-                                                Height="12"
-                                                Foreground="#DF2935"
+                                                Width="{DynamicResource WolvenKitMicroIconSize}"
+                                                Foreground="{StaticResource WolvenKitRed}"
                                                 Kind="Delete" />
                                         </Button>
                                     </Grid>
@@ -187,18 +194,10 @@
                             </syncfusion:GridTemplateColumn.CellTemplate>
                         </syncfusion:GridTemplateColumn>
                     </syncfusion:SfDataGrid.Columns>
-
                 </syncfusion:SfDataGrid>
 
-                <!--  Separator  -->
-                <syncfusion:SfGridSplitter
-                    Grid.Row="1"
-                    Width="auto"
-                    HorizontalAlignment="Stretch"
-                    ResizeBehavior="PreviousAndNext" />
-
                 <!--  PropertyGrid  -->
-                <Grid Grid.Row="2" Margin="5">
+                <Grid Grid.Row="2">
                     <Grid.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
@@ -207,11 +206,16 @@
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                     </Grid.Resources>
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="{DynamicResource WolvenKitColumnTiny}" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="{DynamicResource WolvenKitColumnTiny}" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="{DynamicResource WolvenKitColumnTiny}" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="{DynamicResource WolvenKitColumnTiny}" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
@@ -220,41 +224,46 @@
                         hc:InfoElement.Necessary="True"
                         hc:InfoElement.Title="Name: "
                         hc:InfoElement.TitlePlacement="Left"
-                        hc:InfoElement.TitleWidth="60"
+                        hc:InfoElement.TitleWidth="{DynamicResource WolvenKitSoundModdingLabelWidth}"
                         IsReadOnly="True"
                         Text="{Binding SelectedObject.Name}" />
+                    
                     <hc:ComboBox
-                        Grid.Row="1"
+                        Grid.Row="2"
                         hc:InfoElement.Necessary="True"
                         hc:InfoElement.Title="Type: "
                         hc:InfoElement.TitlePlacement="Left"
-                        hc:InfoElement.TitleWidth="60"
+                        hc:InfoElement.TitleWidth="{DynamicResource WolvenKitSoundModdingLabelWidth}"
                         ItemsSource="{Binding Types, Mode=OneWay}"
                         SelectedValue="{Binding SelectedObject.Type}" />
 
                     <hc:ComboBox
-                        Grid.Row="2"
+                        Grid.Row="4"
                         hc:InfoElement.Title="File: "
                         hc:InfoElement.TitlePlacement="Left"
-                        hc:InfoElement.TitleWidth="60"
+                        hc:InfoElement.TitleWidth="{DynamicResource WolvenKitSoundModdingLabelWidth}"
                         IsEnabled="{Binding SelectedObject.IsEnabled}"
                         ItemsSource="{Binding Files, Mode=OneWay}"
                         SelectedValue="{Binding SelectedObject.File}" />
+                    
                     <hc:NumericUpDown
-                        Grid.Row="3"
+                        Grid.Row="6"
                         hc:InfoElement.Title="Gain: "
                         hc:InfoElement.TitlePlacement="Left"
-                        hc:InfoElement.TitleWidth="60"
+                        hc:InfoElement.TitleWidth="{DynamicResource WolvenKitSoundModdingLabelWidth}"
                         DecimalPlaces="2"
+                        Increment="0.10"
                         IsEnabled="{Binding SelectedObject.IsEnabled}"
                         Style="{StaticResource NumericUpDownExtend}"
                         Value="{Binding SelectedObject.Gain}" />
+                    
                     <hc:NumericUpDown
-                        Grid.Row="4"
+                        Grid.Row="8"
                         hc:InfoElement.Title="Pitch: "
                         hc:InfoElement.TitlePlacement="Left"
-                        hc:InfoElement.TitleWidth="60"
+                        hc:InfoElement.TitleWidth="{DynamicResource WolvenKitSoundModdingLabelWidth}"
                         DecimalPlaces="2"
+                        Increment="0.10"
                         IsEnabled="{Binding SelectedObject.IsEnabled}"
                         Style="{StaticResource NumericUpDownExtend}"
                         Value="{Binding SelectedObject.Pitch}" />
@@ -264,10 +273,7 @@
         </Grid>
 
         <!--  Footer  -->
-        <Grid
-            Grid.Row="3"
-            Height="28"
-            Margin="0,10,0,0">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -277,20 +283,19 @@
             <Button
                 x:Name="OkButton"
                 Grid.Column="1"
-                Margin="10,0,0,0"
-                Padding="12,0"
+                Margin="{DynamicResource WolvenKitMarginSmallLeft}"
+                Padding="{DynamicResource WolvenKitMarginSmall}"
                 HorizontalAlignment="Right"
                 Background="{StaticResource WolvenKitRed}"
                 Content="Save" />
+
             <Button
                 x:Name="CancelButton"
                 Grid.Column="2"
-                Margin="10,0,0,0"
-                Padding="12,0"
+                Margin="{DynamicResource WolvenKitMarginSmallLeft}"
+                Padding="{DynamicResource WolvenKitMarginSmall}"
                 HorizontalAlignment="Right"
                 Content="Cancel" />
-
         </Grid>
     </Grid>
-
 </reactiveUi:ReactiveUserControl>
